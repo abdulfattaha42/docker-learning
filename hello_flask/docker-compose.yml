@@ -1,0 +1,16 @@
+version: '3.8' #tells docker compose which version of the file format we are using
+
+#Services is where we list all of the different parts of our app: for us it its our web service, flask application, and database service
+services:
+  web:
+    image: my-flask-app:multistage #tells docker compose to build the webservice from the dockerfile in the current directory
+    ports: #for web service
+      - "5002:5002"
+    depends_on: #webservice depends on database; so docker compose will start the database service service, then will start the web service
+      - mydb
+
+  mydb:
+    image: mysql:8 #image found online
+    environment: #setting environment variable
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+
